@@ -13,7 +13,7 @@ function checkReqBody(req, res, next) {
 async function checkUsername(req, res, next) {
     try {
         const [user] = await Users.findBy({ username: req.body.username })
-        if (user) {
+        if (!user) {
             res.json({ status: 401, message: "username" })
         } else {
             req.user = user
