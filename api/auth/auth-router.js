@@ -11,10 +11,10 @@ router.post('/register', checkReqBody, checkUsername, async (req, res, next) => 
 
   Users.add({username: username, password: hash})
     .then(user => {
-      res.status(201).json({
+      res.json({
         id: user.user_id,
         username: user.username,
-        password: user.password
+        password: user.password,
       })
     })
     .catch(next())
