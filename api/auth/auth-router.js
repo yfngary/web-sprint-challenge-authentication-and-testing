@@ -11,10 +11,7 @@ router.post('/register', checkReqBody, checkUsername, async (req, res) => {
 
   Users.add({username: username, password: hash})
     .then(user => {
-      res.status(201).json({
-        ...user,
-        id: user.user_id
-      })
+      res.status(201).json(user)
     })
     .catch(next())
   /*
