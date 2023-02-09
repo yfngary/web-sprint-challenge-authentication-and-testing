@@ -5,13 +5,16 @@ const { checkReqBody, checkUsername } = require('./auth-middleware')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../secrets/index')
 
-router.post('/register', checkReqBody, checkUsername, (req, res) => {
+router.post('/register', checkReqBody, checkUsername, async (req, res) => {
   const { username, password } = req.body
   const hash = bcrypt.hashSync(password, 8)
 
   Users.add({username: username, password: hash})
     .then(user => {
-      res.status(200).json(user)
+      res.status(201).json({
+        ...user,
+        id: user.user_id
+      })
     })
     .catch(next())
   /*
