@@ -49,6 +49,8 @@ router.post('/login', checkUsername, (req, res) => {
       message: `welcome, ${req.body.username}`,
       token: token
     })
+  } else {
+    res.json({status: 401, message: "invalid credentials"})
   }
   /*
     IMPLEMENT
