@@ -24,7 +24,19 @@ const checkUsername = async (req, res, next) => {
     }
 }
 
+const checkUsernameExists = async (req, res, next) => {
+    const user = await Users.findByUsername(req.body.username)
+
+    if(!user.username || !user.password) {
+        res.status(400).json({message: "invalid credentials"})
+    } else {
+        req.user = user
+        next()
+    }
+}
+
 module.exports = {
     checkReqBody,
-    checkUsername
+    checkUsername,
+    checkUsernameExists
 }
