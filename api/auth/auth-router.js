@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const Users = require('../Users/users-model')
 const { checkReqBody, checkUsername, checkUsernameExists } = require('./auth-middleware')
 const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('../secrets/index')
+const { JWT_SECRET } = require('../secrets/')
 
 router.post('/register', checkReqBody, checkUsername, (req, res) => {
   const { username, password } = req.body
@@ -45,6 +45,7 @@ router.post('/register', checkReqBody, checkUsername, (req, res) => {
 
 router.post('/login', checkReqBody, checkUsernameExists, (req, res) => {
   const token = buildToken(req.user)
+  
   if(bcrypt.compareSync(req.body.password, req.user.password)) {
     res.status(200).json({
       message: `welcome, ${req.body.username}`,
@@ -82,11 +83,11 @@ function buildToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-    password: user.password
   }
   const options = {
     expiresIn: '1d'
   }
+  console.log(user);
  return jwt.sign(payload, JWT_SECRET, options)
 }
 module.exports = router;
