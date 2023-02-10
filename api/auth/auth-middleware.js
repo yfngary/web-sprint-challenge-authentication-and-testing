@@ -12,12 +12,11 @@ function checkReqBody(req, res, next) {
 
 const checkUsername = async (req, res, next) => {
     try {
-        const [user] = await Users.findBy({ username: req.body.username })
-        const findUser = Users.findById(user)
-        if (!findUser) {
+        const user = await Users.findByUsername(req.body.username)
+
+        if (user) {
             res.json({ status: 401, message: "username taken" })
         } else {
-            req.user = findUser
             next()
         }
     } catch (err) {
