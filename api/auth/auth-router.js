@@ -5,7 +5,7 @@ const { checkReqBody, checkUsername } = require('./auth-middleware')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../secrets/index')
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', (req, res, next) => {
   const { username, password } = req.body
   const hash = bcrypt.hashSync(password, 8)
 
@@ -13,7 +13,7 @@ router.post('/register', async (req, res, next) => {
     .then(user => {
       res.json(user)
     })
-    .catch(next())
+    .catch()
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
