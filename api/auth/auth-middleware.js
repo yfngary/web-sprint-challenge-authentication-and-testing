@@ -4,7 +4,7 @@ function checkReqBody(req, res, next) {
     const { username, password } = req.body
 
     if (!username || !password) {
-        res.json({ message: "username and password required" })
+        res.status(400).json({ message: "username and password required" })
     } else {
         next()
     }
@@ -15,7 +15,7 @@ const checkUsername = async (req, res, next) => {
         const user = await Users.findByUsername(req.body.username)
 
         if (user) {
-            res.json({ status: 401, message: "username taken" })
+            res.status(400).json({message: "username taken" })
         } else {
             next()
         }
